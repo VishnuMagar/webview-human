@@ -39,10 +39,32 @@
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
+    let selectedVoice = null;
+
+    // Wait until voices are loaded
+    window.speechSynthesis.onvoiceschanged = () => {
+      const voices = speechSynthesis.getVoices();
+      selectedVoice = voices.find(voice => voice.lang.startsWith("en")) || voices[0];
+    };
+
+    function speak(text) {
+      if (!window.speechSynthesis) {
+        alert("Your browser does not support speech synthesis.");
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.voice = selectedVoice;
+      utterance.lang = selectedVoice?.lang || 'en-US';
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      speechSynthesis.speak(utterance);
+    }
+
     recognition.onresult = function(event) {
       const text = event.results[0][0].transcript;
       output.innerText = "You said: " + text;
-      speak("You said: " + text + ". Here's a static response: I can help you with anything.");
+      speak("You said: " + text + ". Here's a static response: I am your assistant. How can I help you?");
     };
 
     recognition.onerror = function(event) {
@@ -58,12 +80,6 @@
       speakBtn.disabled = true;
       recognition.start();
     };
-
-    function speak(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      speechSynthesis.speak(utterance);
-    }
   </script>
 
 </body>
