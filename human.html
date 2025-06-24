@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Human Chat</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 20px; }
+    #avatar {
+      width: 150px;
+      height: 150px;
+      margin: auto;
+      border-radius: 50%;
+      background: url('https://i.imgur.com/9ON9Guw.gif') no-repeat center/cover;
+    }
+    #speakBtn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🎤 Digital Human Assistant</h2>
+  <div id="avatar"></div>
+  <button id="speakBtn">🎙️ Start Talking</button>
+  <div id="output">Say something to begin...</div>
+
+  <script>
+    const output = document.getElementById("output");
+    const speakBtn = document.getElementById("speakBtn");
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = function(event) {
+      const text = event.results[0][0].transcript;
+      output.innerText = "You said: " + text;
+      speak("You said: " + text + ". Here's a static response: I can help you with anything.");
+    };
+
+    recognition.onerror = function(event) {
+      output.innerText = "Error occurred: " + event.error;
+    };
+
+    recognition.onend = function() {
+      speakBtn.disabled = false;
+    };
+
+    speakBtn.onclick = function() {
+      output.innerText = "Listening...";
+      speakBtn.disabled = true;
+      recognition.start();
+    };
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+
+</body>
+</html>
+
