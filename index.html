@@ -1,21 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Model Viewer Injection</title>
+  <title>Android WebView 3D Model Test</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    body { margin: 0; background-color: #fff; }
-    model-viewer { width: 100vw; height: 100vh; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    #loader {
+      font-size: 16px;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    model-viewer {
+      width: 90vw;
+      height: 70vh;
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
+  <h1>3D Model from Android Assets</h1>
+  <div id="loader">Loading model...</div>
+
   <model-viewer id="viewer"
+    alt="3D Avatar Model"
     camera-controls
     auto-rotate
-    background-color="#FFFFFF"
-    alt="3D model">
+    background-color="#ffffff"
+    ar
+    ar-modes="webxr scene-viewer quick-look">
   </model-viewer>
+
+  <script>
+    const viewer = document.getElementById('viewer');
+    viewer.addEventListener('load', () => {
+      document.getElementById('loader').textContent = 'Model Loaded!';
+    });
+  </script>
 </body>
 </html>
 
