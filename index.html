@@ -2,56 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Android WebView 3D Model Test</title>
+  <title>Android 3D Injection Test</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      background: #f0f0f0;
+      text-align: center;
     }
 
     h1 {
-      margin: 20px 0 10px;
-      font-size: 20px;
-      color: #333;
+      margin: 20px 0;
     }
 
-    #loader {
-      font-size: 16px;
-      color: #777;
-      margin-bottom: 20px;
-    }
-
-    model-viewer {
-      width: 90vw;
-      height: 70vh;
+    #viewer {
+      width: 100%;
+      height: 80vh;
       border: 1px solid #ccc;
+    }
+
+    #log {
+      font-size: 14px;
+      color: #333;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>3D Model from Android Assets</h1>
-  <div id="loader">Loading model...</div>
+  <h1>3D Model Viewer</h1>
 
   <model-viewer id="viewer"
-  src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-    alt="3D Avatar Model"
     camera-controls
     auto-rotate
     background-color="#ffffff"
-    ar
-    ar-modes="webxr scene-viewer quick-look">
+    alt="Android GLB"
+    exposure="1"
+    shadow-intensity="1">
   </model-viewer>
+
+  <div id="log">Waiting for model injection...</div>
 
   <script>
     const viewer = document.getElementById('viewer');
     viewer.addEventListener('load', () => {
-      document.getElementById('loader').textContent = 'Model Loaded!';
+      document.getElementById('log').textContent = '✅ Model successfully loaded!';
+    });
+
+    viewer.addEventListener('error', (e) => {
+      document.getElementById('log').textContent = '❌ Error loading model';
+      console.error('Model loading error:', e);
     });
   </script>
 </body>
